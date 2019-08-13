@@ -1,0 +1,164 @@
+{
+	"info": {
+		"_postman_id": "db3be934-fe27-4f87-b786-82c6bba11947",
+		"name": "CKlein Practice Collection",
+		"description": "Setting this up for me to use as I'm training.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Shuffle the Cards",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bad8995d-9084-422d-a37a-3f09b8318e09",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); ",
+							"    ",
+							"});",
+							"pm.test(\"Total cards shuffled\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"104\");",
+							"});",
+							"pm.test(\"shuffled is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.shuffled).to.eql(true);",
+							"});",
+							"pm.test(\"success is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.shuffled).to.eql(true);",
+							"});",
+							"pm.test(\"deck Id exists test\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.deck_id).to.exist;",
+							"});",
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"deckId\",data.deck_id);",
+							"",
+							"let deck = pm.environment.get(\"deckId\");",
+							"let jsonData = pm.response.json();",
+							"console.log('JSON response:', jsonData );",
+							"",
+							"console.log(deck);",
+							"console.log(data.deck_id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count={{decksOfCards}}",
+					"protocol": "https",
+					"host": [
+						"deckofcardsapi",
+						"com"
+					],
+					"path": [
+						"api",
+						"deck",
+						"new",
+						"shuffle",
+						""
+					],
+					"query": [
+						{
+							"key": "deck_count",
+							"value": "{{decksOfCards}}"
+						}
+					]
+				},
+				"description": "Using the Deck of Cards API, shuffle parameter."
+			},
+			"response": []
+		},
+		{
+			"name": "Draw a card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9b62c91d-e41a-462a-9cce-fc25e58a7bb1",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); ",
+							"    ",
+							"});",
+							"pm.test(\"Draw was successful\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});   ",
+							"pm.test(\"Cards remaining\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.remaining).to.eql(102);",
+							"});   ",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"deckId\",data.deck_id);",
+							"",
+							"let deck = pm.environment.get(\"deckId\");",
+							"let jsonData = pm.response.json();",
+							"console.log('JSON response:', jsonData );",
+							"",
+							"console.log(deck);",
+							"console.log(data.deck_id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://deckofcardsapi.com/api/deck/{{deckId}}/draw/?count=2",
+					"protocol": "https",
+					"host": [
+						"deckofcardsapi",
+						"com"
+					],
+					"path": [
+						"api",
+						"deck",
+						"{{deckId}}",
+						"draw",
+						""
+					],
+					"query": [
+						{
+							"key": "count",
+							"value": "2"
+						}
+					]
+				},
+				"description": "This step & test uses the deck ID from the prior step and draws two cards from the pile."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "5842c60e-9d36-4032-8100-5bea6ce16bd5",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "187ac411-74c3-4d9a-9033-2025727fde59",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
